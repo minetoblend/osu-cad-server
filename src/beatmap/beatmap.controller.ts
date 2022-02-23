@@ -1,7 +1,7 @@
 import {Controller, Post, Req, UploadedFile, UseGuards, UseInterceptors} from '@nestjs/common';
 import {JwtAuthGuard} from "../auth/jtw.auth.guard";
 import {FileInterceptor} from "@nestjs/platform-express";
-import id3 from 'node-id3'
+import * as id3 from 'node-id3'
 
 @Controller('api/beatmap')
 export class BeatmapController {
