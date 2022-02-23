@@ -12,7 +12,10 @@ import {MulterModule} from "@nestjs/platform-express";
     imports: [
         TypeOrmModule.forRoot(),
         MulterModule.register({
-            dest: './tmp'
+            dest: './tmp',
+            limits: {
+                fileSize: 100_000_000
+            }
         }),
         EditorModule, UserModule, AuthModule, BeatmapModule],
     controllers: [AppController],
