@@ -7,6 +7,7 @@ import {UserModule} from './user/user.module';
 import {AuthModule} from './auth/auth.module';
 import {BeatmapModule} from './beatmap/beatmap.module';
 import {MulterModule} from "@nestjs/platform-express";
+import { diskStorage } from 'multer';
 
 @Module({
     imports: [
@@ -15,7 +16,10 @@ import {MulterModule} from "@nestjs/platform-express";
             dest: './tmp',
             limits: {
                 fileSize: 100_000_000
-            }
+            },
+            storage: diskStorage({
+                destination: './tmp'
+            })
         }),
         EditorModule, UserModule, AuthModule, BeatmapModule],
     controllers: [AppController],
