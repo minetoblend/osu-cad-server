@@ -25,7 +25,6 @@ export class OsuStrategy extends PassportStrategy(Strategy, 'osu') {
             refreshToken,
             profile,
         );
-        console.log(profile);
         if (!user) {
             throw new UnauthorizedException();
         }
