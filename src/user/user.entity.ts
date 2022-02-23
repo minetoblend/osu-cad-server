@@ -18,7 +18,7 @@ export class User {
     @Column({type: 'simple-array'})
     roles: string[];
 
-    @Column()
+    @Column('longtext')
     @Exclude()
     accessToken: string;
 
