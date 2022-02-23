@@ -6,6 +6,7 @@ import { BeatmapSet } from './beatmap.set.entity';
 import * as fs from 'fs'
 import { promisify } from 'util';
 import * as mp3Duration from 'get-mp3-duration'
+import { User } from 'src/user/user.entity';
 
 @Injectable()
 export class BeatmapService {
@@ -18,8 +19,9 @@ export class BeatmapService {
     ) {
     }
 
-    async createFromMp3(path: string): Promise<BeatmapSet | null> {
+    async createFromMp3(path: string, user: User): Promise<BeatmapSet | null> {
         const set = new BeatmapSet()
+        set.creator = user
         try {
             const content = await promisify(fs.readFile)(path)
             const duration = mp3Duration(content)
@@ -30,8 +32,15 @@ export class BeatmapService {
 
                 const id = set.id
 
+                const diff = new Beatmap()
+                diff.beatmapSet = set
+
+                await this.beatmapRepository.insert(diff)
+
                 await promisify(fs.mkdir)(`data/beatmapsets/${id}`, { recursive: true })
                 await promisify(fs.rename)(path, `data/beatmapsets/${id}/audio.mp3`)
+
+                set.beatmaps = [diff]
 
                 return set
             } else throw Error()
@@ -42,5 +51,19 @@ export class BeatmapService {
             return null
         }
     }
+
+   async getAllSetsByCreator(creator: User) {
+        return this.beatmapSetRepository
+        .find({
+            where: {creator},
+            relations: ['beatmaps'],
+        })
+   }
+
+   async getBeatmapById(id: string) {
+        return this.beatmapRepository.findOne(id, {
+            relations: ['beatmapSet']
+        })
+   }
 
 }

@@ -1,4 +1,5 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { User } from "src/user/user.entity";
+import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { Beatmap } from "./beatmap.entity";
 
 @Entity('oc_beatmapset')
@@ -8,6 +9,9 @@ export class BeatmapSet {
 
     @OneToMany(() => Beatmap, beatmap => beatmap.beatmapSet)
     beatmaps: Beatmap[]
+
+    @ManyToOne(() => User)
+    creator : User
 
     @Column('integer')
     duration: number

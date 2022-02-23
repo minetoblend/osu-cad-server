@@ -2,6 +2,7 @@ import { Server, Socket } from "socket.io";
 import { v4 as uuid } from "uuid";
 import { EditorContext } from "./editorContext";
 import { createHitCircle, removeHitObject } from "./commands/hitobject";
+import { Beatmap } from "src/beatmap/beatmap.entity";
 
 export class RoomClient {
   readonly uuid: any;
@@ -23,10 +24,11 @@ export class RoomClient {
 }
 
 export class EditorRoom {
-  constructor(private readonly server: Server) {
+  constructor(private readonly server: Server, private readonly beatmap: Beatmap) {
+    this.context = new EditorContext(beatmap);
   }
 
-  readonly context = new EditorContext();
+  readonly context : EditorContext;
 
   readonly uuid = uuid();
 

@@ -9,6 +9,7 @@ import { BeatmapSet } from './beatmap.set.entity';
 @Module({
   imports: [HttpModule, TypeOrmModule.forFeature([Beatmap, BeatmapSet])],
   providers: [BeatmapService],
-  controllers: [BeatmapController]
+  controllers: [BeatmapController],
+  exports: [BeatmapService]
 })
 export class BeatmapModule {}

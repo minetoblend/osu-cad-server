@@ -1,14 +1,21 @@
+import { Beatmap } from "src/beatmap/beatmap.entity";
+
 export class EditorContext {
 
   serialize() {
     return {
+      beatmapSet: {
+        id: this.beatmap.beatmapSet.id,
+        duration: this.beatmap.beatmapSet.duration
+      },
       hitObjects: this.hitObjects.map(serializeHitObject)
     };
   }
 
   readonly hitObjects: HitObject[] = [];
 
-  constructor() {
+  constructor(readonly beatmap: Beatmap) {
+
     this.hitObjects.push(
     );
   }
